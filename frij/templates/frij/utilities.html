@@ -1,0 +1,44 @@
+{% extends "frij/base.html" %}
+{% load staticfiles %}
+
+{% block title %}Frij - {{ room.id }}{% endblock %}
+
+{% block app %}frij.utility{% endblock %}
+
+{% block content %}
+    <div ui-view></div>
+
+    <script type="text/ng-template" id="utilityList">
+        <div id="content">
+            <ul>
+             <form class="form" ng-submit="save()">
+                {% static 'frij/icon/' as icon_path %}
+                <li ng-repeat="utility in utilAmounts">
+                    <img src="{{ icon_path }}[[ utility.type.code ]].png"/>
+                    <input type="text" class="util-input" ng-model="utility.amount"/>
+                </li>
+                <hr style="background:#000000; border:0; height:7px; width:70%; margin:auto"/>
+                <li class="util-row">
+                    <div class="total">[[ balance() | number:2 ]]</div>
+                </li>
+                <input type="submit" class="btn btn-info" value="SAVE"/>
+             </form>
+            </ul>
+        </div>
+        <a ui-sref="utilityList([[ prev() ]])"> <<< </a>
+        <a ui-sref="utilityList([[ next() ]])"> >>> </a>
+    </script>
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script type="text/javascript"
+            src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+    </script>
+    <script src="{% static 'frij/script/angular-ui-router.min.js' %}"></script>
+    <script src="{% static 'frij/script/bootstrap-datepicker.js' %}"></script>
+    <script src="{% static 'frij/script/utilities/utils.js' %}"></script>
+    <script src="{% static 'frij/script/utilities/directives.js' %}"></script>
+    <script src="{% static 'frij/script/utilities/services.js' %}"></script>
+    <script src="{% static 'frij/script/utilities/controllers.js' %}"></script>
+{% endblock %}

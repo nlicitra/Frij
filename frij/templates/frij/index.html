@@ -1,0 +1,45 @@
+{% extends "frij/base.html" %}
+{% load staticfiles %}
+
+{% block title %}Frij - {{ room.id }}{% endblock %}
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" media="screen"
+          href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
+{% endblock %}
+
+{% block body %}
+    <div ng-app="frij-util">
+        <div id="datepicker" ng-controller="CalendarSelectCtrl">
+            <div monthpicker id="date" class="input-append" ng-model="date">
+                <span class="add-on">
+                    <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                </span>
+                <input type="text"  data-format='MM/YYYY' ng-bind="date"/>
+            </div>
+        </div>
+
+        <div id="content">
+            <form action="{% url 'frij:utility_submit'  %}" method="post" ng-controller="UtilController">
+                {% csrf_token %}
+                <ul>
+                    {% static 'frij/icon/' as icon_path %}
+                    <li class="util-row" ng-repeat="util in roomutils.utilities">
+                        <img src="{{ icon_path }}[[ util.type.code ]].png"/>
+                        <input type="text" class="util-input" ng-model="util.amount"/>
+                    </li>
+                    <hr style="background:#000000; border:0; height:7px; width:70%; margin:auto"/>
+                    <li class="util-row">
+                        <div class="total">{{ room.amount_owed }}</div>
+                    </li>
+                </ul>
+                <input type="submit" value="SAVE"/>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'frij/script/utilities/utils.js' %}"></script>
+{% endblock %}

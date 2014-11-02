@@ -1,0 +1,35 @@
+{% load staticfiles %}
+<!DOCTYPE>
+<HTML>
+<HEAD>
+    <title>FRIJ - {{ house.name }}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'frij/style/style.css' %}"/>
+</HEAD>
+<BODY>
+<H1>{{ house.name }}</H1>
+
+<div id="content">
+    {% if error_message %} <p><strong>{{ error_message }}</strong></p> {% endif %}
+
+    <form action="{% url 'frij:house_submit' house.id %}" method="post">
+        {% csrf_token %}
+        <label for="name">House:</label>
+        <input type="text" name="name" id="name" value="{{ house.name }}"/>
+        <br/>
+        <input type="submit" value="SAVE">
+    </form>
+
+    <ul>
+        {% for room in house.room_set.all %}
+            <li>{{ room }}
+            <ul>
+            {% for tenant in room.tenant_set.all %}
+                <li>{{ tenant }}</li>
+            {% endfor %}
+            </ul>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+</BODY>
+</HTML>

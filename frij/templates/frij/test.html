@@ -1,0 +1,21 @@
+{% extends "frij/base.html" %}
+{% load staticfiles %}
+
+{% block scripts %}
+{{ block.super }}
+    <script src="{% static 'frij/script/test.js' %}"></script>
+    <script type="application/javascript"
+            src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+    </script>
+{% endblock %}
+
+{% block body %}
+    <div ng-app="testapp">
+        <div ng-controller="MainCtrl">
+            <div my-directive></div>
+        </div>
+    </div>
+{% endblock %}
+
+<link rel="stylesheet" type="text/css" media="screen"
+          href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">

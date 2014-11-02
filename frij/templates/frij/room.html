@@ -1,0 +1,13 @@
+<!DOCTYPE>
+<HTML>
+<HEAD>
+    <title>FRIJ - {{ room.id }}</title>
+</HEAD>
+<BODY>
+    <ul>
+    {% for tenant in houses %}
+        <li><a href="{% url 'frij:house' house.id %}">{{ house.name }}</a></li>
+    {% endfor %}
+    </ul>
+</BODY>
+</HTML>
