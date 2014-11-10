@@ -5,36 +5,56 @@
 
 {% block app %}frij.utility{% endblock %}
 
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'frij/style/style.css' %}">
+    <style>
+
+    </style>
+{% endblock %}
+
 {% block content %}
     <div ui-view></div>
 
     <script type="text/ng-template" id="utilityList">
-        <div id="content">
-            <ul>
-             <form class="form" ng-submit="save()">
+        <div class="row">
+        <div class="col-sm-6 col-sm-offset-3" style="background: lightgray">
+            <form class="form-horizontal" ng-submit="save()">
+                <div class="text-center util-header">[[monthName()]]</div>
+
+                <button type="button" class="btn btn-default btn-lg" ng-click="prev()">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </button>
+                <button type="button" class="btn btn-default btn-lg pull-right" ng-click="next()">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </button>
+
+                <ul class="list-unstyled">
                 {% static 'frij/icon/' as icon_path %}
-                <li ng-repeat="utility in utilAmounts">
-                    <img src="{{ icon_path }}[[ utility.type.code ]].png"/>
-                    <input type="text" class="util-input" ng-model="utility.amount"/>
+                <li class="form-group" ng-repeat="utility in utilAmounts">
+                    <img class="control-label" src="{{ icon_path }}[[ utility.type.code ]].png"/>
+                    <input type="text" class="form-control util-amount-input" ng-model="utility.amount"/>
                 </li>
-                <hr style="background:#000000; border:0; height:7px; width:70%; margin:auto"/>
-                <li class="util-row">
+
+                <div class="row">
+                    <hr style="background:#000000; border:0; height:7px; margin:10px;"/>
+                </div>
+
+                <li class="row">
                     <div class="total">[[ balance() | number:2 ]]</div>
                 </li>
-                <input type="submit" class="btn btn-info" value="SAVE"/>
+                <div class="text-center">
+                    <input type="submit" class="btn btn-info pull-right" value="SAVE" style="width:100%"/>
+                </div>
+                </ul>
              </form>
-            </ul>
         </div>
-        <a ui-sref="utilityList([[ prev() ]])"> <<< </a>
-        <a ui-sref="utilityList([[ next() ]])"> >>> </a>
+        </div>
     </script>
 {% endblock %}
 
 {% block scripts %}
     {{ block.super }}
-    <script type="text/javascript"
-            src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
-    </script>
     <script src="{% static 'frij/script/angular-ui-router.min.js' %}"></script>
     <script src="{% static 'frij/script/bootstrap-datepicker.js' %}"></script>
     <script src="{% static 'frij/script/utilities/utils.js' %}"></script>

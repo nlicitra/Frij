@@ -59,7 +59,7 @@
     return UtilityAmount;
   });
 
-  services.factory('UtilityChargePeriod', function($log, $http, $resource, UtilityAmount) {
+  services.factory('UtilityChargePeriod', function($log, $http, UtilityAmount) {
     var amounts;
     amounts = [];
     return {
@@ -89,12 +89,6 @@
             return $log.info("FAILED GET UtilityAmounts");
           };
         })(this));
-      },
-      getResource: function() {
-        return $resource('/frij/utilities/:year/:month/', {
-          month: '@month',
-          year: '@year'
-        });
       },
       data: function() {
         return amounts;

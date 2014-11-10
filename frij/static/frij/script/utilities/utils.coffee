@@ -4,7 +4,7 @@ frijapp.config(($interpolateProvider, $stateProvider, $urlRouterProvider) ->
   $interpolateProvider.startSymbol('[[')
   $interpolateProvider.endSymbol(']]')
 
-  # default to utility current date
+  # default to current date
   currentDate = new Date()
   $urlRouterProvider.otherwise('/' + currentDate.getFullYear() + '/' + (currentDate.getMonth() + 1) + '/')
 

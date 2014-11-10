@@ -33,7 +33,7 @@ services.factory('UtilityAmount', (UtilityType, $log, $http) ->
   return UtilityAmount
 )
 
-services.factory('UtilityChargePeriod', ($log, $http, $resource, UtilityAmount) ->
+services.factory('UtilityChargePeriod', ($log, $http, UtilityAmount) ->
   amounts = []
 
   fromServer: (data) ->
@@ -49,9 +49,6 @@ services.factory('UtilityChargePeriod', ($log, $http, $resource, UtilityAmount) 
         $log.info("SUCCESS GET UtilityAmounts")
       .error (data) =>
         $log.info("FAILED GET UtilityAmounts")
-
-  getResource: -> $resource('/frij/utilities/:year/:month/', {month:'@month', year:'@year'})
-
 
   data: ->
     return amounts

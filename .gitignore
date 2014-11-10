@@ -1,0 +1,6 @@
+*.pyc
+node_modules
+bower_components
+test
+tests
+db.sqlite3

@@ -1,7 +1,8 @@
 frijControllers = angular.module('frij.controllers', [])
 
-frijControllers.controller('utilityListController', ['$scope','UtilityChargePeriod',($scope, utilityAmounts) ->
+frijControllers.controller('utilityListController', ['$scope', '$state', '$stateParams','UtilityChargePeriod', ($scope, $state, $stateParams, utilityAmounts) ->
   $scope.utilAmounts = utilityAmounts.data()
+
   $scope.balance = ->
     total = 0
     for util in $scope.utilAmounts
@@ -12,22 +13,14 @@ frijControllers.controller('utilityListController', ['$scope','UtilityChargePeri
   $scope.save = -> utilityAmounts.update()
 
   $scope.next = ->
-    month = utilityAmounts.month()
-    year = utilityAmounts.year()
-    month++
-    if (month > 12)
-      month = 1
-      year++
-
-    return "{year:" + year + ", month:" + month + "}"
+    nextDate = new Date(parseInt($stateParams.year), parseInt($stateParams.month), 1)
+    $state.go('utilityList', {year:nextDate.getFullYear(), month:(nextDate.getMonth() + 1)})
 
   $scope.prev = ->
-    month = utilityAmounts.month()
-    year = utilityAmounts.year()
-    month--
-    if (month < 1)
-      month = 12
-      year--
+    nextDate = new Date(parseInt($stateParams.year), parseInt($stateParams.month)-2, 1)
+    $state.go('utilityList', {year:nextDate.getFullYear(), month:(nextDate.getMonth() + 1)})
 
-    return "{year:" + year + ", month:" + month + "}"
+  $scope.monthName = ->
+    months = ['January','February','March','April','May','June','July','August','September','October','November','December']
+    return months[parseInt($stateParams.month) - 1]
 ])
