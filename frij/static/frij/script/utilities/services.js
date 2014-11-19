@@ -107,13 +107,45 @@
           method: 'PUT',
           url: '/frij/utilities/' + this.date.getFullYear() + "/" + this.date.getMonth() + "/",
           data: data
-        });
+        }).success(data)((function(_this) {
+          return function() {
+            return alert('you did it!');
+          };
+        })(this));
       },
-      month: function() {
-        return this.date.getMonth();
+      nextDatePeriod: function() {
+        return new Date(parseInt(this.date.getFullYear()), parseInt(this.date.getMonth()), 1);
       },
-      year: function() {
-        return this.date.getFullYear();
+      prevDatePeriod: function() {
+        return new Date(parseInt(this.date.getFullYear()), parseInt(this.date.getMonth()) - 2, 1);
+      },
+      hasNext: function() {
+        var nextPeriod, utilsAvailable;
+        utilsAvailable = false;
+        nextPeriod = this.nextDatePeriod();
+        $http({
+          method: 'GET',
+          url: '/frij/utilities/' + nextPeriod.getFullYear() + '/' + parseInt(nextPeriod.getMonth()) + 1 + '/'
+        }).success(data)((function(_this) {
+          return function() {
+            return utilsAvailable = data.utilities.length > 0;
+          };
+        })(this));
+        return utilsAvailable;
+      },
+      hasPrev: function() {
+        var nextPeriod, utilsAvailable;
+        utilsAvailable = false;
+        nextPeriod = this.prevDatePeriod();
+        $http({
+          method: 'GET',
+          url: '/frij/utilities/' + nextPeriod.getFullYear() + '/' + parseInt(nextPeriod.getMonth()) + 1 + '/'
+        }).success(data)((function(_this) {
+          return function() {
+            return utilsAvailable = data.utilities.length > 0;
+          };
+        })(this));
+        return utilsAvailable;
       }
     };
   });

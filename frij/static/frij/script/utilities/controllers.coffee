@@ -12,15 +12,19 @@ frijControllers.controller('utilityListController', ['$scope', '$state', '$state
 
   $scope.save = -> utilityAmounts.update()
 
+  changeState = (date) ->
+    $state.go('utilityList', {year:date.getFullYear(), month:(date.getMonth() + 1)})
+
   $scope.next = ->
-    nextDate = new Date(parseInt($stateParams.year), parseInt($stateParams.month), 1)
-    $state.go('utilityList', {year:nextDate.getFullYear(), month:(nextDate.getMonth() + 1)})
+    changeState(utilityAmounts.nextDatePeriod())
 
   $scope.prev = ->
-    nextDate = new Date(parseInt($stateParams.year), parseInt($stateParams.month)-2, 1)
-    $state.go('utilityList', {year:nextDate.getFullYear(), month:(nextDate.getMonth() + 1)})
+    changeState(utilityAmounts.prevDatePeriod())
 
   $scope.monthName = ->
     months = ['January','February','March','April','May','June','July','August','September','October','November','December']
     return months[parseInt($stateParams.month) - 1]
+
+  $scope.showNext = -> utilityAmounts.hasNext()
+  $scope.showPrev = -> utilityAmounts.hasPrev()
 ])

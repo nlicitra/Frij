@@ -6,6 +6,7 @@
 
   frijControllers.controller('utilityListController', [
     '$scope', '$state', '$stateParams', 'UtilityChargePeriod', function($scope, $state, $stateParams, utilityAmounts) {
+      var changeState;
       $scope.utilAmounts = utilityAmounts.data();
       $scope.balance = function() {
         var total, util, _i, _len, _ref;
@@ -22,26 +23,28 @@
       $scope.save = function() {
         return utilityAmounts.update();
       };
-      $scope.next = function() {
-        var nextDate;
-        nextDate = new Date(parseInt($stateParams.year), parseInt($stateParams.month), 1);
+      changeState = function(date) {
         return $state.go('utilityList', {
-          year: nextDate.getFullYear(),
-          month: nextDate.getMonth() + 1
+          year: date.getFullYear(),
+          month: date.getMonth() + 1
         });
+      };
+      $scope.next = function() {
+        return changeState(utilityAmounts.nextDatePeriod());
       };
       $scope.prev = function() {
-        var nextDate;
-        nextDate = new Date(parseInt($stateParams.year), parseInt($stateParams.month) - 2, 1);
-        return $state.go('utilityList', {
-          year: nextDate.getFullYear(),
-          month: nextDate.getMonth() + 1
-        });
+        return changeState(utilityAmounts.prevDatePeriod());
       };
-      return $scope.monthName = function() {
+      $scope.monthName = function() {
         var months;
         months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         return months[parseInt($stateParams.month) - 1];
+      };
+      $scope.showNext = function() {
+        return utilityAmounts.hasNext();
+      };
+      return $scope.showPrev = function() {
+        return utilityAmounts.hasPrev();
       };
     }
   ]);

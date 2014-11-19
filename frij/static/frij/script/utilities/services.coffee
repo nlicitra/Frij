@@ -59,10 +59,31 @@ services.factory('UtilityChargePeriod', ($log, $http, UtilityAmount) ->
       serializedAmounts.push(amount.serialize())
     data = {utilities:serializedAmounts}
     $http({method:'PUT', url:'/frij/utilities/' + @date.getFullYear() + "/" + @date.getMonth() + "/", data:data})
+      .success(data) =>
+        alert('you did it!')
 
-  month: ->
-    return @date.getMonth()
 
-  year: ->
-    return @date.getFullYear()
+  nextDatePeriod: ->
+    new Date(parseInt(@date.getFullYear()), parseInt(@date.getMonth()), 1)
+
+  prevDatePeriod: ->
+    new Date(parseInt(@date.getFullYear()), parseInt(@date.getMonth())-2, 1)
+
+  hasNext: ->
+    utilsAvailable = false
+    nextPeriod = @nextDatePeriod()
+    $http({method:'GET', url:'/frij/utilities/' + nextPeriod.getFullYear() + '/' + parseInt(nextPeriod.getMonth()) + 1 + '/'})
+      .success(data) =>
+        utilsAvailable = (data.utilities.length > 0)
+
+    return utilsAvailable
+
+  hasPrev: ->
+    utilsAvailable = false
+    nextPeriod = @prevDatePeriod()
+    $http({method:'GET', url:'/frij/utilities/' + nextPeriod.getFullYear() + '/' + parseInt(nextPeriod.getMonth()) + 1 + '/'})
+      .success(data) =>
+        utilsAvailable = (data.utilities.length > 0)
+
+    return utilsAvailable
 )
