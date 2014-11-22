@@ -12,7 +12,7 @@
     $urlRouterProvider.otherwise('/' + currentDate.getFullYear() + '/' + (currentDate.getMonth() + 1) + '/');
     return $stateProvider.state('utilityList', {
       url: '/{year}/{month}/',
-      templateUrl: 'utilityList',
+      templateUrl: 'static/frij/template/utility_form.html',
       controller: 'utilityListController',
       resolve: {
         utilityAmounts: function(UtilityChargePeriod, $stateParams) {

@@ -24,7 +24,4 @@ frijControllers.controller('utilityListController', ['$scope', '$state', '$state
   $scope.monthName = ->
     months = ['January','February','March','April','May','June','July','August','September','October','November','December']
     return months[parseInt($stateParams.month) - 1]
-
-  $scope.showNext = -> utilityAmounts.hasNext()
-  $scope.showPrev = -> utilityAmounts.hasPrev()
 ])

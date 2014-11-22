@@ -35,16 +35,10 @@
       $scope.prev = function() {
         return changeState(utilityAmounts.prevDatePeriod());
       };
-      $scope.monthName = function() {
+      return $scope.monthName = function() {
         var months;
         months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         return months[parseInt($stateParams.month) - 1];
-      };
-      $scope.showNext = function() {
-        return utilityAmounts.hasNext();
-      };
-      return $scope.showPrev = function() {
-        return utilityAmounts.hasPrev();
       };
     }
   ]);
