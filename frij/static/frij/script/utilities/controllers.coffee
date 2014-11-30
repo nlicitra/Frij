@@ -1,6 +1,7 @@
 frijControllers = angular.module('frij.controllers', [])
 
-frijControllers.controller('utilityListController', ['$scope', '$state', '$stateParams','UtilityChargePeriod', ($scope, $state, $stateParams, utilityAmounts) ->
+frijControllers.controller('utilityListController', ['$scope', '$state', '$stateParams','UtilityChargePeriod', 'months', 'navControls', ($scope, $state, $stateParams, utilityAmounts, months, navControls) ->
+
   $scope.utilAmounts = utilityAmounts.data()
 
   $scope.balance = ->
@@ -15,13 +16,15 @@ frijControllers.controller('utilityListController', ['$scope', '$state', '$state
   changeState = (date) ->
     $state.go('utilityList', {year:date.getFullYear(), month:(date.getMonth() + 1)})
 
-  $scope.next = ->
-    changeState(utilityAmounts.nextDatePeriod())
+  $scope.next = -> changeState(navControls.nextDatePeriod)
 
-  $scope.prev = ->
-    changeState(utilityAmounts.prevDatePeriod())
+  $scope.prev = -> changeState(navControls.prevDatePeriod)
 
   $scope.monthName = ->
-    months = ['January','February','March','April','May','June','July','August','September','October','November','December']
     return months[parseInt($stateParams.month) - 1]
+
+  $scope.hasNext = -> navControls.hasNext
+
+  $scope.hasPrev = -> navControls.hasPrev
+
 ])

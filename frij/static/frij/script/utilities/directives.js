@@ -4,18 +4,11 @@
 
   directives = angular.module('frij.directives', []);
 
-  directives.directive('monthpicker', function() {
+  directives.directive('utilityInput', function() {
     return {
       restrict: 'A',
-      require: 'ngModel',
-      link: function(scope, element) {
-        return element.datetimepicker({
-          format: "MM/YYYY",
-          viewMode: "months",
-          minViewMode: "months",
-          pickTime: false
-        });
-      }
+      templateUrl: '../static/frij/partials/utility_input.html',
+      replace: false
     };
   });
 

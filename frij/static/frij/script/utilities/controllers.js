@@ -5,7 +5,7 @@
   frijControllers = angular.module('frij.controllers', []);
 
   frijControllers.controller('utilityListController', [
-    '$scope', '$state', '$stateParams', 'UtilityChargePeriod', function($scope, $state, $stateParams, utilityAmounts) {
+    '$scope', '$state', '$stateParams', 'UtilityChargePeriod', 'months', 'navControls', function($scope, $state, $stateParams, utilityAmounts, months, navControls) {
       var changeState;
       $scope.utilAmounts = utilityAmounts.data();
       $scope.balance = function() {
@@ -30,15 +30,19 @@
         });
       };
       $scope.next = function() {
-        return changeState(utilityAmounts.nextDatePeriod());
+        return changeState(navControls.nextDatePeriod);
       };
       $scope.prev = function() {
-        return changeState(utilityAmounts.prevDatePeriod());
+        return changeState(navControls.prevDatePeriod);
       };
-      return $scope.monthName = function() {
-        var months;
-        months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      $scope.monthName = function() {
         return months[parseInt($stateParams.month) - 1];
+      };
+      $scope.hasNext = function() {
+        return navControls.hasNext;
+      };
+      return $scope.hasPrev = function() {
+        return navControls.hasPrev;
       };
     }
   ]);

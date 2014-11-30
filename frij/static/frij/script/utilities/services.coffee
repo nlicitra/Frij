@@ -36,16 +36,16 @@ services.factory('UtilityAmount', (UtilityType, $log, $http) ->
 services.factory('UtilityChargePeriod', ($log, $http, UtilityAmount) ->
   amounts = []
 
-  fromServer: (data) ->
-    @date = new Date(data.date.substring(0,4), data.date.substring(5,7))
+  init: (data) ->
+    @date = new Date(data.date.substring(0,4), parseInt(data.date.substring(5,7)) - 1)
     amounts.length = 0
     for amount in data.utilities
       amounts.push(new UtilityAmount(amount))
 
   fetch: (date) ->
-    $http({method:'GET', url:'/frij/utilities/' + date.getFullYear() + '/' + date.getMonth() + '/'})
+    $http({method:'GET', url:'/frij/utilities/' + date.getFullYear() + '/' + (parseInt(date.getMonth()) + 1) + '/'})
       .success (data) =>
-        @fromServer(data)
+        @init(data)
         $log.info("SUCCESS GET UtilityAmounts")
       .error (data) =>
         $log.info("FAILED GET UtilityAmounts")
@@ -58,32 +58,8 @@ services.factory('UtilityChargePeriod', ($log, $http, UtilityAmount) ->
     for amount in amounts
       serializedAmounts.push(amount.serialize())
     data = {utilities:serializedAmounts}
-    $http({method:'PUT', url:'/frij/utilities/' + @date.getFullYear() + "/" + @date.getMonth() + "/", data:data})
+    $http({method:'PUT', url:'/frij/utilities/' + @date.getFullYear() + "/" + (@date.getMonth() + 1) + "/", data:data})
       .success(data) =>
         alert('you did it!')
 
-
-  nextDatePeriod: ->
-    new Date(parseInt(@date.getFullYear()), parseInt(@date.getMonth()), 1)
-
-  prevDatePeriod: ->
-    new Date(parseInt(@date.getFullYear()), parseInt(@date.getMonth())-2, 1)
-
-  hasNext: ->
-    utilsAvailable = false
-    nextPeriod = @nextDatePeriod()
-    $http({method:'GET', url:'/frij/utilities/' + nextPeriod.getFullYear() + '/' + parseInt(nextPeriod.getMonth()) + 1 + '/'})
-      .success(data) =>
-        utilsAvailable = (data.utilities.length > 0)
-
-    return utilsAvailable
-
-  hasPrev: ->
-    utilsAvailable = false
-    nextPeriod = @prevDatePeriod()
-    $http({method:'GET', url:'/frij/utilities/' + nextPeriod.getFullYear() + '/' + parseInt(nextPeriod.getMonth()) + 1 + '/'})
-      .success(data) =>
-        utilsAvailable = (data.utilities.length > 0)
-
-    return utilsAvailable
 )

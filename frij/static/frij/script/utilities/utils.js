@@ -12,12 +12,37 @@
     $urlRouterProvider.otherwise('/' + currentDate.getFullYear() + '/' + (currentDate.getMonth() + 1) + '/');
     return $stateProvider.state('utilityList', {
       url: '/{year}/{month}/',
-      templateUrl: '../static/frij/template/utility_form.html',
+      templateUrl: '../static/frij/partials/utility_form.html',
       controller: 'utilityListController',
       resolve: {
         utilityAmounts: function(UtilityChargePeriod, $stateParams) {
-          UtilityChargePeriod.fetch(new Date($stateParams.year, $stateParams.month));
+          UtilityChargePeriod.fetch(new Date($stateParams.year, parseInt($stateParams.month) - 1));
           return UtilityChargePeriod.data();
+        },
+        navControls: function($stateParams, $http) {
+          var navCtrl;
+          navCtrl = {
+            hasNext: false,
+            hasPrev: false,
+            nextDatePeriod: new Date(parseInt($stateParams.year), parseInt($stateParams.month), 1),
+            prevDatePeriod: new Date(parseInt($stateParams.year), parseInt($stateParams.month) - 2, 1)
+          };
+          $http({
+            method: 'GET',
+            url: '/frij/utilities/' + navCtrl.nextDatePeriod.getFullYear() + '/' + (parseInt(navCtrl.nextDatePeriod.getMonth()) + 1) + '/'
+          }).then(function(response) {
+            return navCtrl.hasNext = response.data.utilities !== void 0 && response.data.utilities.length > 0;
+          });
+          $http({
+            method: 'GET',
+            url: '/frij/utilities/' + navCtrl.prevDatePeriod.getFullYear() + '/' + (parseInt(navCtrl.prevDatePeriod.getMonth()) + 1) + '/'
+          }).then(function(response) {
+            return navCtrl.hasPrev = response.data.utilities !== void 0 && response.data.utilities.length > 0;
+          });
+          return navCtrl;
+        },
+        months: function() {
+          return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         }
       }
     });

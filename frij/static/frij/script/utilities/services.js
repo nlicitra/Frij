@@ -63,9 +63,9 @@
     var amounts;
     amounts = [];
     return {
-      fromServer: function(data) {
+      init: function(data) {
         var amount, _i, _len, _ref, _results;
-        this.date = new Date(data.date.substring(0, 4), data.date.substring(5, 7));
+        this.date = new Date(data.date.substring(0, 4), parseInt(data.date.substring(5, 7)) - 1);
         amounts.length = 0;
         _ref = data.utilities;
         _results = [];
@@ -78,10 +78,10 @@
       fetch: function(date) {
         return $http({
           method: 'GET',
-          url: '/frij/utilities/' + date.getFullYear() + '/' + date.getMonth() + '/'
+          url: '/frij/utilities/' + date.getFullYear() + '/' + (parseInt(date.getMonth()) + 1) + '/'
         }).success((function(_this) {
           return function(data) {
-            _this.fromServer(data);
+            _this.init(data);
             return $log.info("SUCCESS GET UtilityAmounts");
           };
         })(this)).error((function(_this) {
@@ -105,47 +105,13 @@
         };
         return $http({
           method: 'PUT',
-          url: '/frij/utilities/' + this.date.getFullYear() + "/" + this.date.getMonth() + "/",
+          url: '/frij/utilities/' + this.date.getFullYear() + "/" + (this.date.getMonth() + 1) + "/",
           data: data
         }).success(data)((function(_this) {
           return function() {
             return alert('you did it!');
           };
         })(this));
-      },
-      nextDatePeriod: function() {
-        return new Date(parseInt(this.date.getFullYear()), parseInt(this.date.getMonth()), 1);
-      },
-      prevDatePeriod: function() {
-        return new Date(parseInt(this.date.getFullYear()), parseInt(this.date.getMonth()) - 2, 1);
-      },
-      hasNext: function() {
-        var nextPeriod, utilsAvailable;
-        utilsAvailable = false;
-        nextPeriod = this.nextDatePeriod();
-        $http({
-          method: 'GET',
-          url: '/frij/utilities/' + nextPeriod.getFullYear() + '/' + parseInt(nextPeriod.getMonth()) + 1 + '/'
-        }).success(data)((function(_this) {
-          return function() {
-            return utilsAvailable = data.utilities.length > 0;
-          };
-        })(this));
-        return utilsAvailable;
-      },
-      hasPrev: function() {
-        var nextPeriod, utilsAvailable;
-        utilsAvailable = false;
-        nextPeriod = this.prevDatePeriod();
-        $http({
-          method: 'GET',
-          url: '/frij/utilities/' + nextPeriod.getFullYear() + '/' + parseInt(nextPeriod.getMonth()) + 1 + '/'
-        }).success(data)((function(_this) {
-          return function() {
-            return utilsAvailable = data.utilities.length > 0;
-          };
-        })(this));
-        return utilsAvailable;
       }
     };
   });

@@ -1,22 +1,19 @@
-{% load staticfiles %}
-
 <div class="row">
     <div class="col-sm-6 col-sm-offset-3" style="background: lightgray">
         <form class="form-horizontal" ng-submit="save()">
             <div class="text-center util-header">[[monthName()]]</div>
-
-            <button type="button" class="btn btn-default btn-lg" ng-click="prev()">
-                <span class="glyphicon glyphicon-chevron-left"></span>
-            </button>
-            <button type="button" class="btn btn-default btn-lg pull-right" ng-click="next()">
-                <span class="glyphicon glyphicon-chevron-right"></span>
-            </button>
+            <div class="row">
+                <button type="button" class="btn btn-default btn-lg" ng-click="prev()" ng-show="hasPrev()">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </button>
+                <button type="button" class="btn btn-default btn-lg pull-right" ng-click="next()" ng-show="hasNext()">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </button>
+            </div>
 
             <ul class="list-unstyled">
-                {% static 'frij/icon/' as icon_path %}
                 <li class="form-group" ng-repeat="utility in utilAmounts">
-                    <img class="control-label" src="{{ icon_path }}[[ utility.type.code ]].png"/>
-                    <input type="text" class="form-control util-amount-input" ng-model="utility.amount"/>
+                    <div data-utility-input/>
                 </li>
 
                 <div class="row">
@@ -24,7 +21,7 @@
                 </div>
 
                 <li class="row">
-                    <div class="total">[[ balance() | number:2 ]]</div>
+                    <div class="total">[[ balance() | currency ]]</div>
                 </li>
                 <div class="text-center">
                     <input type="submit" class="btn btn-info pull-right" value="SAVE" style="width:100%"/>
