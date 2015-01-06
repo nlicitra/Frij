@@ -7,3 +7,11 @@ directives.directive('utilityInput', ->
     replace: false
   }
 )
+
+directives.directive('utilityForm', ->
+  {
+    restrict: 'A'
+    templateUrl: '../static/frij/partials/utility_form.html'
+    replace: true
+  }
+)

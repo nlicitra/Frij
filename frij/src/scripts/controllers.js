@@ -14,9 +14,7 @@
         _ref = $scope.utilAmounts;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           util = _ref[_i];
-          if (!isNaN(util.amount)) {
-            total += parseFloat(util.amount);
-          }
+          total += parseFloat(util.amount);
         }
         return total;
       };
@@ -41,9 +39,10 @@
       $scope.hasNext = function() {
         return navControls.hasNext;
       };
-      return $scope.hasPrev = function() {
+      $scope.hasPrev = function() {
         return navControls.hasPrev;
       };
+      return $scope.testVar = 'test!';
     }
   ]);
 

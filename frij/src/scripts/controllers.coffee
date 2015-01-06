@@ -7,7 +7,6 @@ frijControllers.controller('utilityListController', ['$scope', '$state', '$state
   $scope.balance = ->
     total = 0
     for util in $scope.utilAmounts
-      if (!isNaN(util.amount))
         total += parseFloat(util.amount)
     return total
 
@@ -26,5 +25,7 @@ frijControllers.controller('utilityListController', ['$scope', '$state', '$state
   $scope.hasNext = -> navControls.hasNext
 
   $scope.hasPrev = -> navControls.hasPrev
+
+  $scope.testVar = 'test!'
 
 ])

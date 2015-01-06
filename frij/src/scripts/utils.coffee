@@ -11,7 +11,7 @@ frijapp.config(($interpolateProvider, $stateProvider, $urlRouterProvider) ->
   $stateProvider
     .state('utilityList'
       url:'/{year}/{month}/'
-      templateUrl:'../static/frij/partials/utility_form.html'
+      template:'<div data-utility-form />'
       controller:'utilityListController'
       resolve:
         utilityAmounts: (UtilityChargePeriod, $stateParams) ->
