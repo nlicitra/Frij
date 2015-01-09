@@ -1,0 +1,37 @@
+{
+  "name": "Frij",
+  "version": "1.0.0",
+  "description": "Manage your utilities like a real adult!",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "bower": "^1.3.12",
+    "gulp": "^3.8.10",
+    "gulp-concat": "^2.4.2",
+    "gulp-uglify": "^1.0.2",
+    "gulp-rename": "^1.2.0",
+    "gulp-sass": "^1.2.4",
+    "angular-ui-router": "^0.2.11",
+    "npm": "^2.1.6",
+    "gulp-jshint": "^1.9.0",
+    "gulp-watch": "^3.0.0",
+    "gulp-coffee": "^2.2.0",
+    "gulp-util": "^3.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nlicitra/Frij.git"
+  },
+  "keywords": [
+    "frij"
+  ],
+  "author": "nlicitra",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nlicitra/Frij/issues"
+  },
+  "homepage": "https://github.com/nlicitra/Frij"
+}
