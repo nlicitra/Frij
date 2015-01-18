@@ -1,21 +1,9 @@
 <div class="row">
-    <div class="col-sm-6 col-sm-offset-3" style="background: lightgray">
+    <div class="col-sm-3" style="background: lightgray">
         <form class="form-horizontal" ng-submit="save()">
             <div class="text-center util-header">[[monthName()]]</div>
-            <div class="row">
-                <button type="button" class="btn btn-default btn-lg" ng-click="prev()" ng-show="hasPrev()">
-                    <span class="glyphicon glyphicon-chevron-left"></span>
-                </button>
-                <button type="button" class="btn btn-default btn-lg pull-right" ng-click="next()" ng-show="hasNext()">
-                    <span class="glyphicon glyphicon-chevron-right"></span>
-                </button>
-                <button type="button" class="btn btn-default btn-lg pull-right" ng-click="add()" ng-show="!hasNext()">
-                    <span class="glyphicon glyphicon-plus"></span>
-                </button>
-            </div>
-
             <ul class="list-unstyled">
-                <li class="form-group" ng-repeat="utility in utilAmounts">
+                <li class="form-group" ng-repeat="util_amount in selectedPeriod.amounts">
                     <div data-utility-input/>
                 </li>
 
@@ -24,12 +12,15 @@
                 </div>
 
                 <li class="row">
-                    <div class="total">[[ balance() | currency ]]</div>
+                    <div class="total">[[selectedPeriod.balance() | currency]]</div>
                 </li>
                 <div class="text-center">
                     <input type="submit" class="btn btn-info pull-right" value="SAVE" style="width:100%"/>
                 </div>
             </ul>
         </form>
+    </div>
+    <div class="col-sm-9" style="background: #C0C0C0">
+        <div data-line-graph />
     </div>
 </div>

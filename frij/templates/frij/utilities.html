@@ -1,7 +1,7 @@
 {% extends "frij/base.html" %}
 {% load staticfiles %}
 
-{% block title %}Frij - {{ room.id }}{% endblock %}
+{% block title %}Frij{% endblock %}
 
 {% block app %}frij.utility{% endblock %}
 
@@ -24,4 +24,5 @@
     <script src="{% static 'frij/script/directives.js' %}"></script>
     <script src="{% static 'frij/script/services.js' %}"></script>
     <script src="{% static 'frij/script/controllers.js' %}"></script>
+    <script src="{% static 'frij/script/Chart.min.js' %}"></script>
 {% endblock %}
