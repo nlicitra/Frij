@@ -42,6 +42,33 @@ directives.directive('lineGraph', ->
       }
     ]
 
+    utilColorMap = {
+      'WTR': {
+        fillColor: "rgba(49,189,240,0.2)"
+        strokeColor: "rgba(49,189,240,1)"
+        pointColor: "rgba(49,189,240,1)"
+        pointHighlightStroke: "rgba(49,189,240,1)"
+      }
+      'GAS': {
+        fillColor: "rgba(238,73,73,0.2)"
+        strokeColor: "rgba(238,73,73,1)"
+        pointColor: "rgba(238,73,73,1)"
+        pointHighlightStroke: "rgba(238,73,73,1)"
+      }
+      'CBL': {
+        fillColor: "rgba(73,238,106,0.2)"
+        strokeColor: "rgba(73,238,106,1)"
+        pointColor: "rgba(73,238,106,1)"
+        pointHighlightStroke: "rgba(73,238,106,1)"
+      }
+      'ELC': {
+        fillColor: "rgba(246,246,66,0.2)"
+        strokeColor: "rgba(246,246,66,1)"
+        pointColor: "rgba(246,246,66,1)"
+        pointHighlightStroke: "rgba(220,220,220,1)"
+      }
+    }
+
     utilMap = {}
     for utilType in utilTypes
       utilMap[utilType.code] = {
@@ -61,12 +88,12 @@ directives.directive('lineGraph', ->
       for util in graphData
         data.datasets.push({
               label: util.type.name
-              fillColor: "rgba(220,220,220,0.2)"
-              strokeColor: "rgba(220,220,220,1)"
-              pointColor: "rgba(220,220,220,1)"
+              fillColor: utilColorMap[util.type.code].fillColor
+              strokeColor: utilColorMap[util.type.code].strokeColor
+              pointColor: utilColorMap[util.type.code].pointColor
               pointStrokeColor: "#fff"
               pointHighlightFill: "#fff"
-              pointHighlightStroke: "rgba(220,220,220,1)"
+              pointHighlightStroke: utilColorMap[util.type.code].pointHighlightStroke
               data: util.amounts
         })
       ctx = element[0].getContext("2d")
