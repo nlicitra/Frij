@@ -18,24 +18,27 @@ class UtilityDataServiceTest(TestCase):
 		#Utility Periods
 		temp_date = datetime.date.today()
 		
-		for i in range(0,12):
+		for i in range(0,13):
 			chargePeriod = models.UtilityChargePeriod.objects.create(date=temp_date)
 			for utilityType in models.UtilityType.objects.all():		
 				chargePeriod.utilities.create(type=utilityType, amount=55)
+
 			temp_date = temp_date - relativedelta(months=1)
 
-
-	def test_service(self):
 		client = Client()
 		response = client.get('/frij/utilities/')
 		
-		data = ast.literal_eval(response.content)
+		self.data = ast.literal_eval(response.content)
+
+	def test_size(self):
 		# assert the last 12 months have been returned
-		self.assertEquals(len(data), 12)
+		self.assertEquals(len(self.data), 12)
+
+	def test_utilities(self):
 		utilityTypeCount = len(models.UtilityType.objects.all())
-		#import pdb; pdb.set_trace()
+		
 		temp_date = datetime.date.today() - relativedelta(months=11)
-		for period in data:
+		for period in self.data:
 			# assert dates are in correct order
 			self.assertEquals(period['date'], temp_date.strftime('%Y-%m-%d'))
 			# assert all utilities are present
@@ -45,6 +48,10 @@ class UtilityDataServiceTest(TestCase):
 				self.assertTrue(charge['amount'] == '55.00')
 
 			temp_date = temp_date + relativedelta(months=1)
+	
+		
+		
+		
 
 
 
