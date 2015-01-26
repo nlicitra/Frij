@@ -17,7 +17,7 @@ class UtilityDataServiceTest(TestCase):
 
 		#Utility Periods
 		temp_date = datetime.date.today()
-		temp_date = datetime.date(temp_date.year, temp_date.month, 1)
+		temp_date = temp_date.replace(day=1)
 		
 		for i in range(0,13):
 			chargePeriod = models.UtilityChargePeriod.objects.create(date=temp_date)
@@ -39,7 +39,7 @@ class UtilityDataServiceTest(TestCase):
 		utilityTypeCount = len(models.UtilityType.objects.all())
 		
 		temp_date = datetime.date.today()
-		temp_date = datetime.date(temp_date.year, temp_date.month, 1)
+		temp_date = temp_date.replace(day=1)
 		temp_date = temp_date - relativedelta(months=11)
 		for period in self.data:
 			# assert dates are in correct order
