@@ -11,10 +11,16 @@ from dateutil.relativedelta import relativedelta
 
 # Create your views here.
 def utility (request):
+    try:
+        thisMonth = datetime.date.today()
+        thisMonth = thisMonth.replace(day=1)
+        UtilityChargePeriod.objects.get(date=thisMonth)
+    except UtilityChargePeriod.DoesNotExist:
+        # Create new charge period & initialize all charges to 0
+        newPeriod = UtilityChargePeriod(date=thisMonth)
+        newPeriod.save()
+        newPeriod.initValues()        
     return render(request, 'frij/utilities.html')
-
-def notfound(request):
-    return HttpResponse("That page doesn't even exist, stupid")
 
 class UtilityTypeService(APIView):
     permission_classes = [permissions.AllowAny]

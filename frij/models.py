@@ -6,6 +6,11 @@ class UtilityChargePeriod(models.Model):
     def __str__(self):
         return str(self.date.month) + "/" + str(self.date.year)
 
+    def initValues(self):
+        if len(self.utilities.all()) == 0:
+            for utilType in UtilityType.objects.all():
+                self.utilities.create(type=utilType, amount=0)
+
 class UtilityType(models.Model):
     code = models.CharField(max_length=3)
     name = models.CharField(max_length=32)

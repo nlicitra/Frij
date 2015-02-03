@@ -16,7 +16,9 @@ frijControllers.controller('utilityListController', ['$scope', '$state', '$state
   $scope.monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December']
   $scope.monthNames = $scope.monthNames[parseInt(currentDate.getMonth() + 1)..].concat($scope.monthNames[0..(parseInt(currentDate.getMonth()))])
 
-  $scope.save = -> $scope.selectedPeriod.update()
+  $scope.save = -> 
+    $scope.selectedPeriod.update()
+    $state.go($state.current, {}, {reload:true})
 
   $scope.changeState = (index) ->
     nextDate = $scope.utilityData[index].date
@@ -24,5 +26,42 @@ frijControllers.controller('utilityListController', ['$scope', '$state', '$state
 
   $scope.monthName = ->
     return $scope.monthNames[getIndexFromDate($stateParams.year, $stateParams.month)]
+
+  transToGraph = ->
+    utilTypes = [
+      {
+        code:'WTR'
+        name:'Water'
+      },
+      {
+        code:'GAS'
+        name:'Gas'
+      },
+      {
+        code:'CBL'
+        name:'Cabel'
+      },
+      {
+        code:'ELC'
+        name:'Electricity'
+      }
+    ]
+
+    utilMap = {}
+    for utilType in utilTypes
+      utilMap[utilType.code] = {
+        type: utilType
+        amounts: []
+      }
+
+    for period in $scope.utilityData
+      for util in period.amounts
+        utilMap[util.type.code].amounts.push(util.amount)
+
+    return $.map(utilMap, (value, index) -> 
+      return [value]
+    )  
+
+  $scope.graphData = transToGraph()
 
 ])

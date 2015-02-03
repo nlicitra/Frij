@@ -23,25 +23,6 @@ directives.directive('lineGraph', ->
       datasets: []
     }
 
-    utilTypes = [
-      {
-        code:'WTR'
-        name:'Water'
-      },
-      {
-        code:'GAS'
-        name:'Gas'
-      },
-      {
-        code:'CBL'
-        name:'Cabel'
-      },
-      {
-        code:'ELC'
-        name:'Electricity'
-      }
-    ]
-
     utilColorMap = {
       'WTR': {
         fillColor: "rgba(49,189,240,0.2)"
@@ -69,23 +50,8 @@ directives.directive('lineGraph', ->
       }
     }
 
-    utilMap = {}
-    for utilType in utilTypes
-      utilMap[utilType.code] = {
-        type: utilType
-        amounts: []
-      }
-
-    for period in scope.utilityData
-      for util in period.amounts
-        utilMap[util.type.code].amounts.push(util.amount)
-
-    graphData = $.map(utilMap, (value, index) -> 
-      return [value]
-    )
-
-    if graphData.length > 1
-      for util in graphData
+    if scope.graphData.length > 1
+      for util in scope.graphData
         data.datasets.push({
               label: util.type.name
               fillColor: utilColorMap[util.type.code].fillColor
